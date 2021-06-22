@@ -21,9 +21,9 @@ var (
 	//BuildDate is the Build Date for this software
 	BuildDate = ""
 	//CONFIGPATH is the default path of the config file
-	CONFIGPATH = "/root/config.tomlz"
+	CONFIGPATH = "config.tomlz"
 	//USERCONFIGPATH is the default path of user config file
-	USERCONFIGPATH = "/root/airsenceUser.toml"
+	USERCONFIGPATH = "config_user.toml"
 	//CONFIG is the config for the software
 	CONFIG config.Config
 	//USERCONFIG is the user controlled config for the software

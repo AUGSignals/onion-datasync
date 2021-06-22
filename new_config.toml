@@ -1,0 +1,179 @@
+[Airsence]
+    [Airsence.server]
+    GoDebug = true      #AUG
+    LogRaw = true       #User   
+    LogPollutant = true     #User
+    SendRawData = true      #User
+    SendPollutantData = true    #User
+    MainFolder = "/mnt/mmcblk0p1/"            #AUG
+    WaitTime = 10           #AUG
+    [Airsence.server.modelfile]                                      #AUG
+    BME280="/root/pollutant/BME280.tomlz"  
+    # K30CO2="/root/pollutant/K30CO2.tomlz"
+    COB4="/root/pollutant/COB4.tomlz"
+    NO2B4="/root/pollutant/NO2B4.tomlz"
+    NOB4="/root/pollutant/NOB4.tomlz"
+    OXB4="/root/pollutant/OXB4.tomlz"
+    PMS7003="/root/pollutant/PMS7003.tomlz"
+    SO2B4="/root/pollutant/SO2B4.tomlz"
+    BME280OB="/root/pollutant/BME280OB.tomlz"
+    # HYWDC2E="/root/pollutant/HYWDC2E.tomlz"
+    AQI="/root/pollutant/AQI.tomlz"
+	# ZRG10 = "/root/pollutant/ZRG10.tomlz"
+	# VEML7700="/root/pollutant/VEML7700.tomlz"
+    # RK30006="/root/pollutant/RK30006.tomlz"
+    # RSGZWSN012="/root/pollutant/RSGZWSN012.tomlz"
+    # SPS30="/root/pollutant/SPS30.tomlz"
+    [Airsence.mqtt]
+    Servers="tcps://a31zzv1mbms592-ats.iot.us-east-2.amazonaws.com:8883"                                #AUG
+    ClientID="AirSENCE-[DEVICE ID HERE]"                                #User
+    Qos=1                                                   #User
+    WillTopic="airsence/[CUSTOM TAG HERE]/+/will"                             #User
+    WillPayload="Device + lost connection."                 #User
+    RawTopic="airsence/[CUSTOM TAG HERE]/+/raw"                               #User
+    PollutantTopic="airsence/[CUSTOM TAG HERE]/+/pollutant"                   #User
+    SendingInterval = 15                                    #User (in second,minimum is 60)
+	KeyFile="/root/bridge_cert/private.pem.key"
+	CertFile="/root/bridge_cert/certificate.pem.crt"
+    [Airsence.log]           #AUG
+    Filename = "/mnt/mmcblk0p1/log/info.log"
+    MaxSize = 3 #megabytes
+    MaxBackups = 30
+    MaxAge = 1   #days
+    Compress = true
+    #All SamplingInterval and Timeout are in millisecond
+    [Airsence.modbus]        #AUG
+        [Airsence.modbus.RK30006]
+        Enable = false
+        SlaveID  = 2
+        Timeout = 1000
+        Address = "/dev/ttyUSB0"
+        SamplingInterval = 1200
+        RTSPin = 43
+        [Airsence.modbus.HYWDC2E]
+        Enable = true
+        SlaveID  = 1
+        Timeout = 2500
+        Address = "/dev/ttyS2"
+        SamplingInterval = 4000
+        RTSPin = 42
+        WaitTime = 5000
+        [Airsence.modbus.RSGZWSN012]
+        Enable = false
+        SlaveID  = 1
+        Timeout = 2500
+        Address = "/dev/ttyS2"
+        SamplingInterval = 4000
+        RTSPin = 42
+        WaitTime = 5000
+		[Airsence.modbus.ZRG10]
+        Enable = false
+        SlaveID  = 3
+        Timeout = 2500
+        Address = "/dev/ttyS2"
+        SamplingInterval = 4000
+        RTSPin = 42
+        WaitTime = 5000
+    [Airsence.gpio]      #AUG
+        [Airsence.gpio.SHT10]
+            Enable = false
+            DataPin = 1
+            ClockPin = 2
+    [Airsence.serial]    #AUG
+        [Airsence.serial.PMS7003]
+            Enable = true
+            PortName = "/dev/ttyS0"
+            Timeout = 3000
+            SamplingInterval = 5000
+        [Airsence.serial.BME280]
+            Enable = true
+            PortName = "/dev/i2c-0"
+            Timeout = 500
+            SamplingInterval = 60000
+        [Airsence.serial.ATMEGA]
+            Enable = true
+            PortName = "/dev/ttyS1"
+            Timeout = 500
+            SamplingInterval = 1000 
+        [Airsence.serial.ZEHS04]
+            Enable = false
+            PortName = "/dev/ttyS1"
+            Timeout = 1000
+            SamplingInterval = 5000
+		[Airsence.serial.VEML7700]
+			Enable = false
+            PortName = "/dev/i2c-0"
+            Timeout = 500
+            SamplingInterval = 60000
+        [Airsence.serial.GPS]
+            Enable = true
+            Timeout=2000
+            SamplingInterval=300000
+[Update]
+    [Update.Mqtt]
+		Server="127.0.0.1:1883"
+		ClientID="AirSENCE-1220FABA40064"
+		Qos=0
+		ModelTopic="airsence/[CUSTOM TAG HERE]/+/model/#"
+		ConfigTopic="airsence/[CUSTOM TAG HERE]/+/config"
+		APNTopic="airsence/[CUSTOM TAG HERE]/apn"
+		WifiTopic="airsence/[CUSTOM TAG HERE]/wifi"
+		UserConfigTopic="airsence/[CUSTOM TAG HERE]/+/userconfig"
+		PowerOffTopic="airsence/[CUSTOM TAG HERE]/poweroff"
+		RestartTopic="airsence/[CUSTOM TAG HERE]/+/restart"
+		CalibrationTopic="airsence/[CUSTOM TAG HERE]/+/calibration"
+    [Update.Log]
+    Filename = "/mnt/mmcblk0p1/log/update.log"
+    MaxSize = 10
+    MaxBackups = 30
+    MaxAge = 1  
+    Compress = true
+    [Update.FilePath]
+    ModelPath="/root/pollutant/"
+    ConfigPath="/root/"
+    APNPath="/root/cellSetupUser.toml"
+    UserConfigPath="/root/"
+    [Update.Service]
+    MainService="/etc/init.d/airsence.service"
+    CellService="/etc/init.d/cellSetup.service"
+[Cell]
+	apn=[
+    #Canadian carriers
+    "pda.bell.ca", #Bell,Virgin Mobile
+    "ltemobile.apn", #Rogers,Fido,Tbaytel
+    "sp.telus.com",#Telus
+	]
+	CheckInterval = 1
+	[Cell.Log]           #AUG
+		Filename = "/mnt/mmcblk0p1/log/cell.log"
+		MaxSize = 10 #megabytes
+		MaxBackups = 30
+		MaxAge = 1   #days
+		Compress = true
+[DataSync]
+    [DataSync.server]
+		GoDebug = true      #AUG
+		LogRaw = true       #User   
+		LogPollutant = true     #User
+		SendRawData = true      #User
+		SendPollutantData = true    #User
+		MainFolder = "./"            #AUG
+    [DataSync.Log]
+		Filename = "./datasync.log"
+		MaxSize = 3 #megabytes
+		MaxBackups = 30
+		MaxAge = 1   #days
+		Compress = true
+    [DataSync.Mqtt]
+		Servers="tcps://a31zzv1mbms592-ats.iot.us-east-2.amazonaws.com:8883"                                #AUG
+		ClientID="t590-06"                                #User
+		Qos=0                                                   #User
+		WillTopic="airsence/AUG/+/will"                             #User
+		WillPayload="Device + lost connection."                 #User
+		RawTopic="airsence/AUG/+/raw"                               #User
+		PollutantTopic="airsence/AUG/+/pollutant"                   #User
+		ResendRawTopic="airsence/AUG/+/resendraw"
+		ResendPollutantTopic= "airsence/AUG/+/resendpollutant"
+		ResendingInterval = 15                                    #User (in second,minimum is 60)
+		KeyFile='C:\Users\AUGAdmin\AMOneDrive\OneDrive\Documents\AUG\AirSENCE\Ambisense\Support\Ambisense_AWS_API\private.pem.key'
+		CertFile='C:\Users\AUGAdmin\AMOneDrive\OneDrive\Documents\AUG\AirSENCE\Ambisense\Support\Ambisense_AWS_API\certificate.pem.crt'

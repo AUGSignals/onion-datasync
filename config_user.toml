@@ -1,16 +1,16 @@
 [server]
-LogRaw = false       #User   
-LogPollutant = true     #User
-SendRawData = false      #User
-SendPollutantData = true    #User
-WaitTime = 15 #in second
+	LogRaw = false       		#User   
+	LogPollutant = true  		#User
+	SendRawData = false  		#User
+	SendPollutantData = true    #User
+	WaitTime = 15 				# in second
 [mqtt]
-ClientID="AirSENCE-Dummy"                                #User
-Qos=0                                                   #User
-WillTopic="airsence/AUG/+/will"                             #User
-WillPayload="Device + lost connection."                 #User
-RawTopic="airsence/AUG/+/raw"                               #User
-PollutantTopic="airsence/AUG/+/pollutant"
-ResendRawTopic="airsence/AUG/+/resendraw"
-ResendPollutantTopic= "airsence/AUG/+/resendpollutant"                   #User
-ResendingInterval = 30                                 #User (in second,minimum is 60)
+	ClientID="AirSENCE-Dummy"                               #User
+	Qos=0                                                   #User
+	WillTopic="airsence/AUG/+/will"                         #User
+	WillPayload="Device + lost connection."                 #User
+	RawTopic="airsence/AUG/+/raw"                           #User
+	PollutantTopic="airsence/AUG/+/pollutant"				#User
+	ResendRawTopic="airsence/AUG/+/resendraw"				#User
+	ResendPollutantTopic= "airsence/AUG/+/resendpollutant"  #User
+	ResendingInterval = 30                                  #User (in second,minimum is 60)
